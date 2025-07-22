@@ -1,0 +1,15 @@
+# ——— Node & build ———
+node_modules/
+public/
+
+# ——— Fuentes fuera de src (ya las moveremos) ———
+/fonts/
+!src/assets/fonts/
+
+# ——— Entorno macOS / VS Code ———
+.DS_Store
+.vscode/
+
+# ——— Logs ———
+npm-debug.log*
+.DS_Store
