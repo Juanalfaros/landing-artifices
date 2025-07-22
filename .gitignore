@@ -12,3 +12,4 @@ public/
 
 # ——— Logs ———
 npm-debug.log*
+.DS_Store
