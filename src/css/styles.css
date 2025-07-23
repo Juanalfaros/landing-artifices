@@ -34,6 +34,8 @@ body {
 }
 img { max-width: 100%; height: auto; display: block; }
 
+
+
 /* ----------  UTILIDADES  ---------- */
 .container { max-width: 1152px; margin: 0 auto; padding: 0 1.5rem; }
 .section   { padding: 4rem 0; }
@@ -69,7 +71,7 @@ header a:visited,header a:hover,header a:active{ color:inherit; }
     font-size: 2.25rem;
     font-weight: 700;
     color: var(--gray-800);
-    line-height: 1.2;
+    line-height: 1;
     margin: 0 auto;
     max-width: 48rem;
 }
@@ -290,3 +292,7 @@ footer p { margin:0; text-align:center; color:var(--gray-300); }
 }
 .reviews-summary .rating{font-weight:600;color:var(--gray-800);}
 
+h2, h3 {
+   line-height: 1;
+   text-wrap: balance;
+}

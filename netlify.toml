@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "public"
+  
+# ➌ Dirige cualquier llamada a /api/submit-lead a la función serverless
+[[redirects]]
+  from = "/api/submit-lead"
+  to   = "/.netlify/functions/submit-lead"
+  status = 200
+  force = true
