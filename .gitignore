@@ -14,3 +14,14 @@ npm-debug.log*
 
 # Local Netlify folder
 .netlify/
+
+# ——— Build estático ———
+/public/*
+
+# Excepciones que sí se versionan
+!/public/favicon.ico
+!/public/pages
+!/public/pages/**
+# (Opcional)
+!/public/site.webmanifest
+!/public/robots.txt
