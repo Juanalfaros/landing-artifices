@@ -6,8 +6,8 @@ import path from 'node:path';
 export default defineConfig({
   root: 'src',
   build: {
-    outDir: '../public',
-    emptyOutDir: true
+    outDir: '../dist',
+    emptyOutDir: false
   },
   plugins: [
     createHtmlPlugin({ minify: true }),
