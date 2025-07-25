@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     status.textContent = 'Enviando…';
 
+    // si el campo es inválido, tratamos de arreglarlo
+  const webInput = form.website;
+  if (!webInput.checkValidity()) {
+    if (!/^https?:\/\//i.test(webInput.value)) {
+      webInput.value = `https://${webInput.value}`;
+    }
+  }
+
+  // si sigue siendo inválido -> mensaje del navegador
+  if (!webInput.checkValidity()) {
+    webInput.reportValidity();
+    return;
+  }
+
     try {
       await grecaptcha.ready(async () => {
         const token = await grecaptcha.execute(siteKey, { action: 'submit' });
