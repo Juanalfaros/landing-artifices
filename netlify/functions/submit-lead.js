@@ -31,7 +31,7 @@ export default async (req, context) => {
     method : 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body   : new URLSearchParams({
-      secret   : context.env.6Lc_544rAAAAAP7EA29MGszBjreysMbw3x6WSNl6,
+      secret   : context.env.RECAPTCHA_SECRET_KEY,
       response : token,
       remoteip : req.headers.get('x-nf-client-connection-ip') || ''
     })

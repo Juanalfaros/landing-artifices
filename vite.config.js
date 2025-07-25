@@ -11,7 +11,14 @@ export default defineConfig({
     emptyOutDir: true
   },
   plugins: [
-    createHtmlPlugin({ minify: true }),
+    createHtmlPlugin({
+      minify: true,
+      inject: {
+        data: {
+          VITE_RECAPTCHA_SITE_KEY: process.env.VITE_RECAPTCHA_SITE_KEY
+        }
+      }
+    }),
     viteStaticCopy({
       targets: [
         { src: 'assets/**/*', dest: 'assets' },
