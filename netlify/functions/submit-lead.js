@@ -38,6 +38,7 @@ export default async (req, context) => {
   }).then(r => r.json());
 
   if (!verify.success || verify.score < 0.5) {
+    console.error('reCAPTCHA failed', verify);
     return json({ error: 'reCAPTCHA failed' }, 403);
   }
 
@@ -81,8 +82,10 @@ export default async (req, context) => {
   }
 
   if (!brevoRes.ok) {
-    return json({ error: 'Brevo error' }, 502);
-  }
+  const errTxt = await brevoRes.text().catch(()=> '');
+  console.error('Brevo error', brevoRes.status, errTxt);   // 👈
+  return json({ error: 'Brevo error' }, 502);
+}
 
   /* ─── 5. ¡Todo OK! ───────────────────────────────── */
   return json({ ok: true }, 200);
