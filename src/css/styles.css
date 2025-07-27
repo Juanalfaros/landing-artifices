@@ -559,42 +559,44 @@ footer .recaptcha-disclaimer--footer {
 }
 
 /* ——— Cookie Banner (Artífices) ——— */
-:root{
-  --cb-bg: #0b0b0bcc;          /* fondo vidrio oscuro */
-  --cb-border: #ffffff1f;      /* borde sutil */
-  --cb-text: #ededed;          /* texto */
-  --cb-link: #ffffff;          /* links */
-  --cb-shadow: 0 20px 60px rgba(0,0,0,.35);
+:root {
+  /* Variables para el tema oscuro (por defecto) */
+  --cb-bg: #0b0b0bcc;
+  --cb-border: #ffffff1f;
+  --cb-text: #ededed;
+  --cb-link: #ffffff;
+  --cb-shadow: 0 20px 60px rgba(0, 0, 0, .35);
   --cb-radius: 20px;
-  --cb-primary: #ff003d;       /* rojo Artífices */
+  --cb-primary: #ff003d;
   --cb-primary-text: #fff;
   --cb-secondary-bg: #ffffff;
   --cb-secondary-text: #000;
 }
 
-@media (prefers-color-scheme: light){
-  :root{
+@media (prefers-color-scheme: light) {
+  /* Variables para el tema claro */
+  :root {
     --cb-bg: #ffffffcc;
     --cb-border: #00000012;
     --cb-text: #111;
     --cb-link: #000;
-    --cb-shadow: 0 16px 50px rgba(0,0,0,.12);
+    --cb-shadow: 0 16px 50px rgba(0, 0, 0, .12);
     --cb-secondary-bg: #f5f5f5;
     --cb-secondary-text: #111;
   }
 }
 
-.cookie-banner{
+.cookie-banner {
   position: fixed;
   inset: auto 0 24px 0;
   z-index: 9999;
   display: grid;
   place-items: center;
   padding-inline: 16px;
-  pointer-events: none;                 /* evita robar clics cuando está oculto */
+  pointer-events: none; /* Evita robar clics cuando está oculto */
 }
 
-.cookie-banner__inner{
+.cookie-banner__inner {
   width: min(960px, 100%);
   background: var(--cb-bg);
   color: var(--cb-text);
@@ -603,166 +605,116 @@ footer .recaptcha-disclaimer--footer {
   border-radius: var(--cb-radius);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  pointer-events: auto;                 /* vuelve clicable el contenido */
+  padding: clamp(16px, 3vw, 28px);
+  pointer-events: auto; /* Vuelve clicable el contenido */
+  
+  /* --- Animación de entrada --- */
   transform: translateY(16px);
   opacity: 0;
   transition: transform .35s ease, opacity .35s ease;
-  padding: clamp(16px, 3vw, 28px);
+
+  /* --- Layout (Mobile-First: apilado por defecto) --- */
   display: grid;
-  gap: 18px;
+  gap: 16px;
 }
 
-.cookie-banner.is-visible .cookie-banner__inner{
+.cookie-banner.is-visible .cookie-banner__inner {
   transform: translateY(0);
   opacity: 1;
 }
 
-.cookie-banner__text{
+.cookie-banner__text {
   font-size: clamp(.92rem, 1.2vw, 1rem);
   line-height: 1.6;
   margin: 0;
 }
-.cookie-banner__text a{
+
+.cookie-banner__text a {
   color: var(--cb-link);
   text-decoration: underline;
   text-underline-offset: 2px;
+  transition: opacity .2s;
 }
-.cookie-banner__text a:hover{
+
+.cookie-banner__text a:hover {
   opacity: .85;
 }
 
-.cookie-banner__actions{
+.cookie-banner__actions {
   display: flex;
+  flex-wrap: wrap; /* Seguridad para que no se desborde */
   gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-end; /* Alinea botones a la derecha en móvil */
 }
 
-/* Botones */
+/* --- Estilos unificados de botones --- */
 .cookie-banner .btn-primary,
-.cookie-banner .btn-secondary{
+.cookie-banner .btn-secondary {
   appearance: none;
-  border: 0;
-  border-radius: 14px;
-  padding: 12px 18px;
+  border: 1px solid transparent; /* Base para el borde del secundario */
+  border-radius: 16px;
+  padding: 12px 20px;
   font-weight: 700;
   font-size: .95rem;
   line-height: 1;
   cursor: pointer;
-  transition: transform .12s ease, box-shadow .2s ease, opacity .2s;
+  transition: transform .12s ease, box-shadow .2s ease, opacity .2s, border-color .2s;
   will-change: transform;
 }
 
-.cookie-banner .btn-primary{
+.cookie-banner .btn-primary {
   background: var(--cb-primary);
   color: var(--cb-primary-text);
-  box-shadow: 0 8px 22px rgba(255,0,61,.35);
+  box-shadow: 0 8px 18px rgba(255, 0, 61, .22);
 }
-.cookie-banner .btn-primary:hover{ transform: translateY(-1px); }
-.cookie-banner .btn-primary:active{ transform: translateY(0); }
 
-.cookie-banner .btn-secondary{
+.cookie-banner .btn-secondary {
   background: var(--cb-secondary-bg);
   color: var(--cb-secondary-text);
-  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+  border-color: var(--cb-border); /* Borde sutil para separar del fondo */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .10);
 }
-.cookie-banner .btn-secondary:hover{ opacity: .9; }
 
-/* Accesibilidad foco */
+/* Estados de los botones */
+.cookie-banner .btn-primary:hover {
+  transform: translateY(-1px);
+}
+.cookie-banner .btn-primary:active {
+  transform: translateY(0);
+}
+.cookie-banner .btn-secondary:hover {
+  opacity: .92;
+}
+
+/* Foco accesible y con marca */
 .cookie-banner .btn-primary:focus-visible,
-.cookie-banner .btn-secondary:focus-visible{
-  outline: 2px solid #fff;
+.cookie-banner .btn-secondary:focus-visible {
+  outline: 2px solid var(--cb-primary);
   outline-offset: 2px;
 }
 
-/* Layout en pantallas medianas: texto a la izquierda, botones a la derecha */
-@media (min-width: 720px){
-  .cookie-banner__inner{
-    grid-template-columns: 1fr auto;
+/* ——— Responsive ——— */
+
+/* Layout para pantallas medianas y grandes (ej. 900px en adelante) */
+@media (min-width: 900px) {
+  .cookie-banner__inner {
+    grid-template-columns: 1fr auto; /* Texto a la izq, botones a la der */
     align-items: center;
-  }
-  .cookie-banner__actions{
-    justify-content: flex-end;
-    min-width: 320px;
+    gap: 24px;
   }
 }
 
-@media (max-width: 400px){
-  .cookie-banner__inner{ gap: 14px; }
+/* Ajustes para móviles muy pequeños */
+@media (max-width: 420px) {
   .cookie-banner .btn-primary,
-  .cookie-banner .btn-secondary{
-    padding: 10px 14px;
-    border-radius: 12px;
-  }
-}
-
-/* ——— Ajustes finos de botones y layout ——— */
-
-/* Distribuye texto + botones en una fila y centra verticalmente */
-.cookie-banner__inner{
-  grid-template-columns: 1fr auto;
-  align-items: center;
-}
-
-/* Contenedor de acciones: tamaño compacto y sin desbordes */
-.cookie-banner__actions{
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  min-width: unset;
-}
-
-/* Tamaño consistente de botones */
-.cookie-banner .btn-primary,
-.cookie-banner .btn-secondary{
-  padding: 12px 20px;          /* ↓ menos alto/ancho */
-  font-size: 0.95rem;          /* texto más contenido */
-  border-radius: 16px;
-  line-height: 1;
-}
-
-/* Primario: sombra más sutil */
-.cookie-banner .btn-primary{
-  box-shadow: 0 8px 18px rgba(255,0,61,.22);
-}
-
-/* Secundario: borde sutil para separar del fondo oscuro */
-.cookie-banner .btn-secondary{
-  background: var(--cb-secondary-bg);
-  color: var(--cb-secondary-text);
-  border: 1px solid var(--cb-border);
-  box-shadow: 0 6px 14px rgba(0,0,0,.10);
-}
-
-/* Hover/active discretos */
-.cookie-banner .btn-primary:hover{ transform: translateY(-1px); }
-.cookie-banner .btn-primary:active{ transform: translateY(0); }
-.cookie-banner .btn-secondary:hover{ opacity: .92; }
-
-/* Foco accesible con color de marca */
-.cookie-banner .btn-primary:focus-visible,
-.cookie-banner .btn-secondary:focus-visible{
-  outline: 2px solid #ff003d;
-  outline-offset: 2px;
-}
-
-/* — Responsive — */
-@media (max-width: 900px){
-  .cookie-banner__inner{
-    grid-template-columns: 1fr;   /* botones bajo el texto */
-    gap: 16px;
-  }
-  .cookie-banner__actions{
-    justify-content: flex-end;    /* botones alineados a la derecha */
-  }
-}
-
-@media (max-width: 420px){
-  .cookie-banner .btn-primary,
-  .cookie-banner .btn-secondary{
-    padding: 10px 16px;           /* aún más compacto en móviles muy pequeños */
+  .cookie-banner .btn-secondary {
+    padding: 10px 16px;
     border-radius: 14px;
     font-size: 0.9rem;
+    width: 100%; /* Ocupan todo el ancho para fácil pulsación */
+  }
+  .cookie-banner__actions {
+    flex-direction: column-reverse; /* El botón primario queda abajo */
+    gap: 10px;
   }
 }
-
