@@ -541,3 +541,19 @@ footer p { margin:0; text-align:center; color:var(--gray-300); }
   .fade-in-section{ transition:none; transform:none; opacity:1; }
 }
 
+.recaptcha-disclaimer {
+  margin-top: .5rem;
+  font-size: .8125rem; /* 13px aprox */
+  line-height: 1.4;
+  color: var(--gray-600, #6b7280);
+}
+
+.recaptcha-disclaimer a {
+  text-decoration: underline;
+}
+
+footer .recaptcha-disclaimer--footer {
+  margin-top: .75rem;
+  text-align: center;
+  color: var(--gray-500, #737373);
+}
