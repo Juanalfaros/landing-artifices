@@ -696,3 +696,73 @@ footer .recaptcha-disclaimer--footer {
   }
 }
 
+/* ——— Ajustes finos de botones y layout ——— */
+
+/* Distribuye texto + botones en una fila y centra verticalmente */
+.cookie-banner__inner{
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+/* Contenedor de acciones: tamaño compacto y sin desbordes */
+.cookie-banner__actions{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: unset;
+}
+
+/* Tamaño consistente de botones */
+.cookie-banner .btn-primary,
+.cookie-banner .btn-secondary{
+  padding: 12px 20px;          /* ↓ menos alto/ancho */
+  font-size: 0.95rem;          /* texto más contenido */
+  border-radius: 16px;
+  line-height: 1;
+}
+
+/* Primario: sombra más sutil */
+.cookie-banner .btn-primary{
+  box-shadow: 0 8px 18px rgba(255,0,61,.22);
+}
+
+/* Secundario: borde sutil para separar del fondo oscuro */
+.cookie-banner .btn-secondary{
+  background: var(--cb-secondary-bg);
+  color: var(--cb-secondary-text);
+  border: 1px solid var(--cb-border);
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+}
+
+/* Hover/active discretos */
+.cookie-banner .btn-primary:hover{ transform: translateY(-1px); }
+.cookie-banner .btn-primary:active{ transform: translateY(0); }
+.cookie-banner .btn-secondary:hover{ opacity: .92; }
+
+/* Foco accesible con color de marca */
+.cookie-banner .btn-primary:focus-visible,
+.cookie-banner .btn-secondary:focus-visible{
+  outline: 2px solid #ff003d;
+  outline-offset: 2px;
+}
+
+/* — Responsive — */
+@media (max-width: 900px){
+  .cookie-banner__inner{
+    grid-template-columns: 1fr;   /* botones bajo el texto */
+    gap: 16px;
+  }
+  .cookie-banner__actions{
+    justify-content: flex-end;    /* botones alineados a la derecha */
+  }
+}
+
+@media (max-width: 420px){
+  .cookie-banner .btn-primary,
+  .cookie-banner .btn-secondary{
+    padding: 10px 16px;           /* aún más compacto en móviles muy pequeños */
+    border-radius: 14px;
+    font-size: 0.9rem;
+  }
+}
+
