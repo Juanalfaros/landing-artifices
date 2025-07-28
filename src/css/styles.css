@@ -720,47 +720,45 @@ footer .recaptcha-disclaimer--footer {
 }
 
 /* 6.3 Scroller marcas (logos) */
-.scroller { overflow: hidden; width: 100%; margin-top: 2.5rem; }
-
+/* Scroller de logos */
+.scroller { overflow:hidden; width:100%; margin-top:2.5rem; }
 .scroller-track {
-  display: flex;
-  gap: clamp(2rem, 5vw, 3rem);
-  align-items: center;
-  width: max-content;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+  display:flex;
+  flex-wrap:nowrap;
+  width:max-content;
+  align-items:center;
   animation: scroll 200s linear infinite;
+  gap: 2.5rem; /* espacio entre logos */
+  padding-inline: .5rem;
 }
 
 .scroller-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  opacity: .85;
-  filter: grayscale(100%);
-  transition: opacity .25s, filter .25s, transform .25s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.scroller-item img {
-  display: block;
-  height: clamp(28px, 6vw, 40px);  /* altura fluida */
+/* Imagen: alto fijo, ancho automático. Mantiene ratio.
+   Dejamos width/height en HTML para reservar espacio (CLS). */
+.scroller-item picture img {
+  height: 50px;
   width: auto;
+  max-width: 220px;   /* evita logos extralargos */
+  object-fit: contain;
+  filter: grayscale(100%) opacity(.9);
+  transition: filter .25s ease, transform .25s ease;
 }
 
-/* hover/focus: un poco más nítido */
-.scroller-item:hover,
-.scroller-item:focus-within {
-  opacity: 1;
-  filter: grayscale(0);
+.scroller-item picture img:hover {
+  filter: none;
   transform: translateY(-2px);
 }
 
-/* Quita el punto rojo antiguo */
+/* Quitamos el bullet anterior */
 .scroller-item::before { content: none; }
 
-/* Prefiere sin animación para usuarios con reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  .scroller-track { animation: none; }
+/* Más compacto en pantallas pequeñas */
+@media (max-width: 640px) {
+  .scroller-track { gap: 1.5rem; }
+  .scroller-item picture img { height: 40px; max-width: 180px; }
 }
