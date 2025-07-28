@@ -720,45 +720,36 @@ footer .recaptcha-disclaimer--footer {
 }
 
 /* 6.3 Scroller marcas (logos) */
-/* Scroller de logos */
 .scroller { overflow:hidden; width:100%; margin-top:2.5rem; }
 .scroller-track {
   display:flex;
   flex-wrap:nowrap;
   width:max-content;
   align-items:center;
+  gap:2.5rem;
+  padding-inline:.5rem;
   animation: scroll 200s linear infinite;
-  gap: 2.5rem; /* espacio entre logos */
-  padding-inline: .5rem;
 }
 
-.scroller-item {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+.scroller-item { display:flex; align-items:center; justify-content:center; }
+.scroller-item::before { content:none; }
 
-/* Imagen: alto fijo, ancho automático. Mantiene ratio.
-   Dejamos width/height en HTML para reservar espacio (CLS). */
 .scroller-item picture img {
-  height: 50px;
-  width: auto;
-  max-width: 220px;   /* evita logos extralargos */
-  object-fit: contain;
-  filter: grayscale(100%) opacity(.9);
-  transition: filter .25s ease, transform .25s ease;
+  height:50px;         /* controla el alto visual */
+  width:auto;
+  max-width:220px;
+  object-fit:contain;
+  filter:grayscale(100%) opacity(.9);
+  transition:filter .25s, transform .25s;
+}
+.scroller-item picture img:hover { filter:none; transform:translateY(-2px); }
+
+@media (max-width:640px){
+  .scroller-track { gap:1.5rem; }
+  .scroller-item picture img { height:40px; max-width:180px; }
 }
 
-.scroller-item picture img:hover {
-  filter: none;
-  transform: translateY(-2px);
-}
-
-/* Quitamos el bullet anterior */
-.scroller-item::before { content: none; }
-
-/* Más compacto en pantallas pequeñas */
-@media (max-width: 640px) {
-  .scroller-track { gap: 1.5rem; }
-  .scroller-item picture img { height: 40px; max-width: 180px; }
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
