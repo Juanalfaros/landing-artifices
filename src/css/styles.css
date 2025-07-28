@@ -755,7 +755,7 @@ footer .recaptcha-disclaimer--footer {
 }
 
 /* Quitamos el bullet anterior */
-.scroller-item::before { content: none; }
+/* .scroller-item::before { content: none; } */
 
 /* Más compacto en pantallas pequeñas */
 @media (max-width: 640px) {
