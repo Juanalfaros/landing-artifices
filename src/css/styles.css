@@ -741,7 +741,7 @@ footer .recaptcha-disclaimer--footer {
 /* Imagen: alto fijo, ancho automático. Mantiene ratio.
    Dejamos width/height en HTML para reservar espacio (CLS). */
 .scroller-item picture img {
-  height: 50px;
+  /* height: 50px; */
   width: auto;
   max-width: 220px;   /* evita logos extralargos */
   object-fit: contain;
