@@ -1,0 +1,17 @@
+<svg id="loreal" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="140" height="25.413" viewBox="0 0 140 25.413">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_113" data-name="Rectángulo 113" width="140" height="25.413" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_1712" data-name="Grupo 1712" clip-path="url(#clip-path)">
+    <path id="Trazado_12478" data-name="Trazado 12478" d="M2.88,92.206v18.1H18.312v2.1a.743.743,0,0,1-.111.111H0V92.206Z" transform="translate(0 -88.801)"/>
+    <path id="Trazado_12479" data-name="Trazado 12479" d="M564.878.029c6.806-.411,13.394,3.527,14.612,10.527,1.814,10.425-8.3,16.8-17.714,14.321-14.406-3.8-12.108-23.929,3.1-24.848m11.316,12.68A10.283,10.283,0,1,0,565.91,23a10.285,10.285,0,0,0,10.283-10.286" transform="translate(-531.739 0)"/>
+    <path id="Trazado_12480" data-name="Trazado 12480" d="M1397.636,92.115l12.593,0c3.071.018,5.986,1.128,6.937,4.288,1.107,3.677-1.274,6.685-4.762,7.57l6.128,8.457h-3.581l-6.129-8.494h-8.307v8.494h-2.88Zm2.88,2.437v6.943h10.375a3.792,3.792,0,0,0,3.023-1.7c1.487-2.718-.539-5.211-3.393-5.239Z" transform="translate(-1346.022 -88.709)"/>
+    <path id="Trazado_12481" data-name="Trazado 12481" d="M359.815,92.206l-3.766,7.238h-2.141l2.806-7.238Z" transform="translate(-340.839 -88.8)"/>
+    <path id="Trazado_12482" data-name="Trazado 12482" d="M2615.766,112.375h-3.47l-2.518-5.126-.247-.123-12.1.016-2.633,5.232h-3.47l10.3-20.317,3.917.078Zm-17.057-7.829h9.673l-4.837-9.528Z" transform="translate(-2495.629 -88.658)"/>
+    <path id="Trazado_12483" data-name="Trazado 12483" d="M3298.021,92.206v18.1h15.432v2.216h-18.312V92.206Z" transform="translate(-3173.454 -88.8)"/>
+    <path id="Trazado_12484" data-name="Trazado 12484" d="M2079.553,92.206V94.5h-14.916v6.426h11.224v2.29h-11.224v7.09h14.916v2.216h-18.091V92.206Z" transform="translate(-1985.334 -88.8)"/>
+    <path id="Trazado_12485" data-name="Trazado 12485" d="M2259.028,4.206l-.848.371-6.646,2.363-.111-.037,2.4-2.7Z" transform="translate(-2168.279 -4.05)"/>
+  </g>
+</svg>

@@ -48,9 +48,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     /* Copiamos assets y CSS tal cual */
     viteStaticCopy({
       targets: [
-        { src: 'assets/**/*',            dest: 'assets' },
-        { src: 'css/**/*',               dest: 'css'    },
-        { src: '../public/pages/*.html', dest: 'pages'  }
+        { src: 'assets/**/*', dest: 'assets' },
+        { src: 'assets/brands/**/*', dest: 'assets/brands' }, // <- explícito (por si filtras)
+        { src: 'css/**/*', dest: 'css' },
+        { src: '../public/pages/*.html', dest: 'pages' }
       ]
     })
   ],

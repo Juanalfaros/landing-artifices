@@ -718,3 +718,49 @@ footer .recaptcha-disclaimer--footer {
     gap: 10px;
   }
 }
+
+/* 6.3 Scroller marcas (logos) */
+.scroller { overflow: hidden; width: 100%; margin-top: 2.5rem; }
+
+.scroller-track {
+  display: flex;
+  gap: clamp(2rem, 5vw, 3rem);
+  align-items: center;
+  width: max-content;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  animation: scroll 200s linear infinite;
+}
+
+.scroller-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  opacity: .85;
+  filter: grayscale(100%);
+  transition: opacity .25s, filter .25s, transform .25s;
+}
+
+.scroller-item img {
+  display: block;
+  height: clamp(28px, 6vw, 40px);  /* altura fluida */
+  width: auto;
+}
+
+/* hover/focus: un poco más nítido */
+.scroller-item:hover,
+.scroller-item:focus-within {
+  opacity: 1;
+  filter: grayscale(0);
+  transform: translateY(-2px);
+}
+
+/* Quita el punto rojo antiguo */
+.scroller-item::before { content: none; }
+
+/* Prefiere sin animación para usuarios con reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroller-track { animation: none; }
+}
