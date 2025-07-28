@@ -1,60 +1,71 @@
 // src/scripts/consent.js
-(function () {
+(() => {
   const KEY = 'artifices_consent_v1';
+  const REMOVAL_DELAY = 360;
 
-  function dl() {
-    window.dataLayer = window.dataLayer || [];
-    return window.dataLayer;
-  }
+  const dl = () => (window.dataLayer = window.dataLayer || []);
+  const save = v => { try { localStorage.setItem(KEY, v); } catch {} };
+  const read = () => { try { return localStorage.getItem(KEY); } catch { return null } };
 
-  function save(state) {
-    try { localStorage.setItem(KEY, state); } catch {}
-  }
+  function updateConsent(mode) {
+    // Cookies necesarias siempre permitidas
+    const base = {
+      functionality_storage: 'granted',
+      security_storage: 'granted'
+    };
 
-  function read() {
-    try { return localStorage.getItem(KEY); } catch { return null; }
-  }
-
-  function pushState(state) {
-    if (state === 'granted') {
+    if (mode === 'granted') {
+      // ✅ Analytics + Ads permitidos
+      window.gtag?.('consent', 'update', {
+        ...base,
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+      });
       dl().push({ event: 'consent_granted' });
-    } else if (state === 'denied') {
+    } else {
+      // ❌ Solo necesarias
+      window.gtag?.('consent', 'update', {
+        ...base,
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
       dl().push({ event: 'consent_denied' });
     }
   }
 
-  function hideBanner() {
-    const banner = document.getElementById('cookie-banner');
-    if (banner) banner.classList.remove('is-visible');
+  function removeBanner() {
+    const el = document.getElementById('cookie-banner');
+    if (!el) return;
+    el.classList.remove('is-visible');
+    setTimeout(() => el.remove(), REMOVAL_DELAY);
   }
 
   function showBanner() {
-    const banner = document.getElementById('cookie-banner');
-    if (banner) banner.classList.add('is-visible');
+    document.getElementById('cookie-banner')?.classList.add('is-visible');
   }
 
-  function setConsent(state) {
-    save(state);
-    pushState(state);
-    hideBanner();
+  function decide(mode) {
+    save(mode);
+    updateConsent(mode);
+    removeBanner();
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     const stored = read();
-
-    // Si ya hay decisión, la reenviamos a GTM y ocultamos
     if (stored === 'granted' || stored === 'denied') {
-      pushState(stored);
-      hideBanner();
+      updateConsent(stored);
+      removeBanner();
     } else {
       showBanner();
     }
 
-    // Botones
-    const acceptBtn = document.getElementById('btn-consent-accept');
-    const rejectBtn = document.getElementById('btn-consent-reject');
-
-    acceptBtn?.addEventListener('click', () => setConsent('granted'));
-    rejectBtn?.addEventListener('click', () => setConsent('denied'));
+    document.getElementById('btn-consent-accept')
+      ?.addEventListener('click', () => decide('granted'));
+    document.getElementById('btn-consent-reject')
+      ?.addEventListener('click', () => decide('denied'));
   });
 })();
