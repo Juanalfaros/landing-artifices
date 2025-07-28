@@ -753,3 +753,52 @@ footer .recaptcha-disclaimer--footer {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+/* ——— Scroller con degradado en los bordes ——— */
+.scroller {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Color base del fade: por defecto blanco */
+.scroller--fade { --fade: #ffffff; }
+
+/* Si el scroller vive sobre la sección gris, usa ese mismo color */
+.section--gray50 .scroller--fade { --fade: var(--gray-50); }
+
+/* Capas de degradado (superpuestas, no capturan clics) */
+.scroller--fade::before,
+.scroller--fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 64px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.scroller--fade::before {
+  left: 0;
+  background: linear-gradient(to right, var(--fade) 0%, rgba(255,255,255,0) 100%);
+}
+
+.scroller--fade::after {
+  right: 0;
+  background: linear-gradient(to left, var(--fade) 0%, rgba(255,255,255,0) 100%);
+}
+
+/* Asegura que el contenido quede bajo los overlays */
+.scroller-track { position: relative; z-index: 1; }
+
+/* Ajuste responsive: bordes más estrechos en móviles */
+@media (max-width: 640px) {
+  .scroller--fade::before,
+  .scroller--fade::after { width: 40px; }
+}
+
+/* Modo oscuro (opcional): si tu fondo en dark es casi negro */
+@media (prefers-color-scheme: dark) {
+  .scroller--fade { --fade: #0e0e0e; }
+  .section--gray50 .scroller--fade { --fade: var(--gray-50); } /* mantiene gris si corresponde */
+}
