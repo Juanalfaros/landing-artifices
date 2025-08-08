@@ -80,25 +80,20 @@ function json(obj, status = 200) {
   };
 }
 async function nextAgent() {
-  const {
-    UPSTASH_REDIS_REST_URL,
-    UPSTASH_REDIS_REST_TOKEN,
-    AGENT_LIST
-    // fallback
-  } = process.env;
-  const rotate = await fetch(
+  const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, AGENT_LIST } = process.env;
+  const agents = AGENT_LIST.split(",").map((a) => a.trim()).filter(Boolean);
+  const headers = { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` };
+  const res = await fetch(
     `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents?_format=json`,
-    { headers: { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` } }
-  ).then((r) => r.json()).catch(() => ({}));
-  if (rotate.error || rotate.result === null) {
-    const agents = AGENT_LIST.split(",").map((a) => a.trim());
-    await fetch(
-      `${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join("/")}?_format=json`,
-      { headers: { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` } }
-    );
-    return agents[0];
+    { headers }
+  ).then((r) => r.json());
+  let agent = res.result;
+  if (res.error || !agents.includes(agent)) {
+    await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+    await fetch(`${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join("/")}`, { headers });
+    agent = agents[0];
   }
-  return rotate.result;
+  return agent;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

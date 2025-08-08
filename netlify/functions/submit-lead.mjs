@@ -75,28 +75,27 @@ function json (obj, status = 200) {
 
 /* Rotación circular con RPOPLPUSH */
 async function nextAgent () {
-  const {
-    UPSTASH_REDIS_REST_URL,
-    UPSTASH_REDIS_REST_TOKEN,
-    AGENT_LIST                  // fallback
-  } = process.env;
+  const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, AGENT_LIST } = process.env;
+  const agents  = AGENT_LIST.split(',').map(a => a.trim()).filter(Boolean);
+  const headers = { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` };
 
-  /* 1. - Intentamos rotar la lista */
-  const rotate = await fetch(
+  // intentamos hacer el rpoplpush
+  const res  = await fetch(
     `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents?_format=json`,
-    { headers: { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` } }
-  ).then(r => r.json())
-   .catch(() => ({}));
+    { headers }
+  ).then(r => r.json());
 
-  /* 2. Si la key no existe, la sembramos con la lista de env */
-  if (rotate.error || rotate.result === null) {
-    const agents = AGENT_LIST.split(',').map(a => a.trim());
-    await fetch(
-      `${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join('/')}?_format=json`,
-      { headers: { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` } }
-    );
-    return agents[0];          // primero de la lista
+  let agent = res.result;
+
+  // Si la key no existe o el valor no es válido, reseteamos todo
+  if (res.error || !agents.includes(agent)) {
+    // 1) Borramos la lista
+    await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+    // 2) La sembramos de nuevo
+    await fetch(`${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join('/')}`, { headers });
+    // 3) Devolvemos el primero
+    agent = agents[0];
   }
 
-  return rotate.result;
+  return agent;
 }
