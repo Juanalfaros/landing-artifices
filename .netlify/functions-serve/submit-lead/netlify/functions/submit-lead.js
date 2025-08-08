@@ -83,17 +83,41 @@ async function nextAgent() {
   const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, AGENT_LIST } = process.env;
   const agents = AGENT_LIST.split(",").map((a) => a.trim()).filter(Boolean);
   const headers = { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` };
-  const res = await fetch(
-    `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents?_format=json`,
-    { headers }
-  ).then((r) => r.json());
-  let agent = res.result;
-  if (res.error || !agents.includes(agent)) {
-    await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
-    await fetch(`${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join("/")}`, { headers });
-    agent = agents[0];
+  console.log("Agentes disponibles:", agents);
+  try {
+    const listLength = await fetch(
+      `${UPSTASH_REDIS_REST_URL}/llen/agents`,
+      { headers }
+    ).then((r) => r.json());
+    console.log("Longitud de la lista:", listLength.result);
+    if (listLength.error || listLength.result === 0) {
+      console.log("Inicializando lista de agentes...");
+      await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+      for (const agent of agents) {
+        await fetch(`${UPSTASH_REDIS_REST_URL}/lpush/agents/${agent}`, { headers });
+      }
+      console.log("Lista inicializada, retornando:", agents[0]);
+      return agents[0];
+    }
+    const res = await fetch(
+      `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents`,
+      { headers }
+    ).then((r) => r.json());
+    console.log("Resultado RPOPLPUSH:", res);
+    if (res.error || !res.result || !agents.includes(res.result)) {
+      console.log("Error en RPOPLPUSH o agente inv\xE1lido, reinicializando...");
+      await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+      for (const agent of agents) {
+        await fetch(`${UPSTASH_REDIS_REST_URL}/lpush/agents/${agent}`, { headers });
+      }
+      return agents[0];
+    }
+    console.log("Agente seleccionado:", res.result);
+    return res.result;
+  } catch (error) {
+    console.error("Error en nextAgent:", error);
+    return agents[0];
   }
-  return agent;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

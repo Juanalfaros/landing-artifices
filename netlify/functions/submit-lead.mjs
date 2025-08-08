@@ -74,28 +74,67 @@ function json (obj, status = 200) {
 }
 
 /* Rotación circular con RPOPLPUSH */
-async function nextAgent () {
+/* Rotación circular con RPOPLPUSH mejorada */
+async function nextAgent() {
   const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, AGENT_LIST } = process.env;
-  const agents  = AGENT_LIST.split(',').map(a => a.trim()).filter(Boolean);
+  const agents = AGENT_LIST.split(',').map(a => a.trim()).filter(Boolean);
   const headers = { Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}` };
 
-  // intentamos hacer el rpoplpush
-  const res  = await fetch(
-    `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents?_format=json`,
-    { headers }
-  ).then(r => r.json());
+  console.log('Agentes disponibles:', agents); // Debug
 
-  let agent = res.result;
+  try {
+    // Primero verificamos si la lista existe y tiene elementos
+    const listLength = await fetch(
+      `${UPSTASH_REDIS_REST_URL}/llen/agents`,
+      { headers }
+    ).then(r => r.json());
 
-  // Si la key no existe o el valor no es válido, reseteamos todo
-  if (res.error || !agents.includes(agent)) {
-    // 1) Borramos la lista
-    await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
-    // 2) La sembramos de nuevo
-    await fetch(`${UPSTASH_REDIS_REST_URL}/rpush/agents/${agents.join('/')}`, { headers });
-    // 3) Devolvemos el primero
-    agent = agents[0];
+    console.log('Longitud de la lista:', listLength.result); // Debug
+
+    // Si la lista no existe o está vacía, la inicializamos
+    if (listLength.error || listLength.result === 0) {
+      console.log('Inicializando lista de agentes...'); // Debug
+      
+      // Borramos cualquier clave existente por si acaso
+      await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+      
+      // Agregamos todos los agentes usando LPUSH (uno por uno para mayor control)
+      for (const agent of agents) {
+        await fetch(`${UPSTASH_REDIS_REST_URL}/lpush/agents/${agent}`, { headers });
+      }
+      
+      // Retornamos el primer agente
+      console.log('Lista inicializada, retornando:', agents[0]); // Debug
+      return agents[0];
+    }
+
+    // Hacemos el RPOPLPUSH (saca del final y pone al principio)
+    const res = await fetch(
+      `${UPSTASH_REDIS_REST_URL}/rpoplpush/agents/agents`,
+      { headers }
+    ).then(r => r.json());
+
+    console.log('Resultado RPOPLPUSH:', res); // Debug
+
+    if (res.error || !res.result || !agents.includes(res.result)) {
+      console.log('Error en RPOPLPUSH o agente inválido, reinicializando...'); // Debug
+      
+      // Reinicializar la lista
+      await fetch(`${UPSTASH_REDIS_REST_URL}/del/agents`, { headers });
+      
+      for (const agent of agents) {
+        await fetch(`${UPSTASH_REDIS_REST_URL}/lpush/agents/${agent}`, { headers });
+      }
+      
+      return agents[0];
+    }
+
+    console.log('Agente seleccionado:', res.result); // Debug
+    return res.result;
+
+  } catch (error) {
+    console.error('Error en nextAgent:', error);
+    // En caso de error, devolver el primer agente como fallback
+    return agents[0];
   }
-
-  return agent;
 }
