@@ -11,4 +11,4 @@
 
 UPSTASH_REDIS_REST_URL="https://intense-elf-10586.upstash.io"
 UPSTASH_REDIS_REST_TOKEN="ASlaAAIjcDFmOGY0N2VjNmUzNTE0ZmQ2ODU5YTU5ZGE1MDVhZGViMXAxMA"
-AGENT_LIST              = juan,cristian       # orden del round-robin
+AGENT_LIST               = "juan,cristian"
