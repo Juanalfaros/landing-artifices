@@ -1,25 +1,28 @@
-
 // vite.config.js
-import { defineConfig }      from 'vite';
-import { createHtmlPlugin }  from 'vite-plugin-html';
-import { viteStaticCopy }    from 'vite-plugin-static-copy';
-import path                  from 'node:path';
+import { defineConfig }   from 'vite';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import path               from 'node:path';
 
 export default defineConfig({
+  // 1️⃣ El código fuente vive en /src
   root: 'src',
+
+  // 2️⃣ Los assets “públicos” (que NO procesas) viven en /public
   publicDir: path.resolve(__dirname, 'public'),
 
+  // 3️⃣ El build queda fuera del proyecto, en /dist
   build: {
     outDir: '../dist',
-    emptyOutDir: true
+    emptyOutDir: true,
   },
 
   plugins: [
+    /* HTML plugin (GTM + reCAPTCHA) */
     createHtmlPlugin({
       minify: true,
       inject: {
         data: {
-          /* ——— Google Tag Manager ——— */
           gtmHead: `
 <!-- Google Tag Manager -->
 <script>
@@ -37,28 +40,30 @@ export default defineConfig({
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End GTM (noscript) -->
           `,
-
-          /* ——— reCAPTCHA v3 ——— */
-          // Opción B – solo la clave (por si la usas como %VITE_RECAPTCHA_SITE_KEY%):
-          VITE_RECAPTCHA_SITE_KEY: process.env.VITE_RECAPTCHA_SITE_KEY
-        }
-      }
+          VITE_RECAPTCHA_SITE_KEY: process.env.VITE_RECAPTCHA_SITE_KEY,
+        },
+      },
     }),
 
-    /* Copiamos assets y CSS tal cual */
+    /* Copiar sólo assets (NUNCA .html sueltos) */
     viteStaticCopy({
       targets: [
-        { src: 'assets/**/*', dest: 'assets' },
-        { src: 'assets/brands/**/*', dest: 'assets/brands' }, // <- explícito (por si filtras)
-        { src: 'css/**/*', dest: 'css' },
-        { src: '../public/pages/*.html', dest: 'pages' }
-      ]
-    })
+        { src: 'assets/**/*',           dest: 'assets' },
+        { src: 'assets/brands/**/*',    dest: 'assets/brands' },
+        { src: 'css/**/*',              dest: 'css' },
+        // Excluimos cualquier .html
+        {
+          src: '../public/**/*',
+          dest: '',
+          filter: (p) => !p.endsWith('.html'),
+        },
+      ],
+    }),
   ],
 
   resolve: {
     alias: {
-      '@assets': path.resolve(__dirname, 'src/assets')
-    }
-  }
+      '@assets': path.resolve(__dirname, 'src/assets'),
+    },
+  },
 });

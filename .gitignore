@@ -1,27 +1,30 @@
-# ——— Node & build ———
+############################################
+# DEPENDENCIAS Y BUILDS
+############################################
 node_modules/
+dist/
 
-# ——— Fuentes fuera de src (ya las moveremos) ———
+############################################
+# macOS / VS Code / logs
+############################################
+.DS_Store
+.vscode/
+npm-debug.log*
+.netlify/            # carpeta local de Netlify
+
+############################################
+# ASSETS FUERA DE src  (fonts antiguas)
+############################################
 /fonts/
 !src/assets/fonts/**
 
-# ——— Entorno macOS / VS Code ———
-.DS_Store
-.vscode/
-
-# ——— Logs ———
-npm-debug.log*
-
-# Local Netlify folder
-.netlify/
-
-# ——— Build estático ———
+############################################
+# PUBLIC: solo assets | nunca .html sueltos
+############################################
 /public/*
-
-# Excepciones que sí se versionan
 !/public/favicon.ico
-!/public/pages
-!/public/pages/**
-# (Opcional)
 !/public/site.webmanifest
 !/public/robots.txt
+!/public/pages/
+!/public/pages/**      # mantén las páginas estáticas
+/public/*.html         # ← bloquea index.html y similares
