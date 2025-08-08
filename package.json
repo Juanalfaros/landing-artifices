@@ -19,6 +19,7 @@
     "vite-plugin-static-copy": "^3.1.1"
   },
   "dependencies": {
+    "@upstash/redis": "^1.35.3",
     "acorn": "^8.15.0",
     "ansi-styles": "^4.3.0",
     "anymatch": "^3.1.3",
