@@ -43,3 +43,27 @@
         });
       }
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+  const scrollers = document.querySelectorAll('.scroller');
+
+  // Si el usuario prefiere movimiento reducido, no hacemos nada.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  scrollers.forEach(scroller => {
+    const track = scroller.querySelector('.scroller-track');
+    // Obtenemos todos los elementos originales de la lista.
+    const items = Array.from(track.children);
+
+    // Duplicamos cada elemento y lo añadimos al final del track.
+    // El atributo aria-hidden=true es importante para no confundir a los lectores de pantalla
+    // con contenido duplicado.
+    items.forEach(item => {
+      const clonedItem = item.cloneNode(true);
+      clonedItem.setAttribute('aria-hidden', true);
+      track.appendChild(clonedItem);
+    });
+  });
+});

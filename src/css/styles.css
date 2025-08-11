@@ -1,47 +1,82 @@
 /* =============================================================
    Artífices – Landing Diagnóstico de Potencial de Marca
-   Refactor CSS (ordenado) – 24 Jul 2025
-   -------------------------------------------------------------
+   CSS Final Optimizado (sin modo oscuro) – 11 ago 2025
+   =============================================================
+   Índice:
    01. Variables & Fuentes
    02. Reset & Base
    03. Utilidades
-   04. Tipografías / textos reutilizables
-   05. Layout global (section, container)
-   06. Componentes:
-       6.1 Header
-       6.2 Hero
-       6.3 Scroller marcas
-       6.4 Fade-in
-       6.5 Beneficios
-       6.6 Formulario
-       6.7 Footer
-       6.8 Testimonios V2
-       6.9 Testimonios V3 (mock-up)
-       6.10 Resumen reseñas
-   07. Misceláneo (#diagnostico)
-   08. Animaciones / Keyframes
-   09. Media Queries
+   04. Tipografías y Textos
+   05. Layout Global
+   06. Componentes
+       6.1. Header
+       6.2. Hero y Botones
+       6.3. Scroller de Marcas
+       6.4. Efecto Fade-in
+       6.5. Beneficios
+       6.6. Formulario
+       6.7. Testimonios
+       6.8. Disclaimer reCAPTCHA
+       6.9. Cookie Banner
+       6.10. Footer
+   07. Misceláneo
+   08. Animaciones (Keyframes)
+   09. Media Queries (Agrupadas)
    ============================================================= */
 
 
 /* ========== 01. VARIABLES & FUENTES ========== */
 
 :root {
-  --primary:   #FF003D;
-  --secondary: #272727;
+  /* Paleta de Colores */
+  --primary:      #FF003D;
+  --secondary:    #272727;
+  --gray-50:      #EDEDED;
+  --gray-300:     #898989;
+  --gray-500:     #535353;
+  --gray-600:     #6B7280;
+  --gray-800:     #272727;
+  --gray-900:     #191919;
 
-  --gray-50:   #EDEDED;
-  --gray-300:  #898989;
-  --gray-500:  #535353;
-  --gray-600:  #6B7280;
-  --gray-800:  #272727;
-  --gray-900:  #191919;
+  /* Tipografía Fluida */
+  --fs-h2:        clamp(2rem, 6vw, 3rem);
+  --fs-body:      clamp(0.95rem, 2.8vw, 1.125rem);
+
+  /* Tokens para Botones */
+  --btn-fs:         clamp(1rem, 2.6vw, 1.125rem);
+  --btn-py:         clamp(0.85rem, 2.8vw, 1rem);
+  --btn-px:         clamp(1.5rem, 6vw, 2.5rem);
+  --btn-radius:     0.5rem;
+  --btn-shadow:     0 6px 12px rgba(0, 0, 0, 0.15);
+  --btn-shadow-hover: 0 12px 20px rgba(0, 0, 0, 0.2);
+  --btn-ring:       0 0 0 3px rgba(255, 0, 61, 0.25);
+
+  /* Variables para Cookie Banner */
+  --cb-bg:          #ffffffcc;
+  --cb-border:      #00000012;
+  --cb-text:        #111;
+  --cb-link:        #000;
+  --cb-shadow:      0 16px 50px rgba(0, 0, 0, 0.12);
+  --cb-radius:      20px;
+  --cb-primary:     var(--primary);
+  --cb-primary-text: #fff;
+  --cb-secondary-bg: #f5f5f5;
+  --cb-secondary-text: #111;
 }
 
 
 /* ========== 02. RESET & BASE ========== */
-*,*::before,*::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -50,541 +85,460 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
 }
-img { max-width: 100%; height: auto; display: block; }
 
-h2, h3 {
-  line-height: 1;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
   text-wrap: balance;
 }
 
 
 /* ========== 03. UTILIDADES ========== */
-.container { max-width: 1152px; margin: 0 auto; padding: 0 1.5rem; }
-.section   { padding: 4rem 0; }
-.text-center { text-align: center; }
+
+.container {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .visually-hidden {
-  position: absolute; clip: rect(0 0 0 0); clip-path: inset(50%);
-  height: 1px; width: 1px; overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
 }
-/* Extra utilidades del traspaso */
-.section--gray50{ background:var(--gray-50); }
-#contact-form{ margin-top:2rem; }
-.form-note{
-  margin-top:1.5rem; text-align:center; font-size:.75rem; color:var(--gray-500);
+
+.section--gray50 {
+  background: var(--gray-50);
 }
-.form-group{ margin-bottom:1.5rem; }
-.form-group-last{ margin-bottom:2rem; }
-.benefit-text{ margin-left:1rem; }
+
+.font-bold {
+  font-weight: 700;
+}
 
 
-/* ========== 04. TIPOGRAFÍAS / TEXTOS REUTILIZABLES ========== */
-.font-primary { font-family: "clarendon-urw", Georgia, serif; }
+/* ========== 04. TIPOGRAFÍAS Y TEXTOS ========== */
+
+.font-primary {
+  font-family: "clarendon-urw", Georgia, serif;
+}
+
 .tagline {
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   color: var(--primary);
   margin-top: -6px;
 }
-.hero p strong{
-  color:var(--gray-800);
-  font-weight:700;
-}
 
-/* Títulos específicos (antes inline) */
 .brands-title,
 .benefits-title,
 .testimonials-heading-alt,
-.form-title{
-  font-size:2rem;
-  font-weight:450;
-  color:var(--gray-800);
+.form-title {
+  font-weight: 450;
+  color: var(--gray-800);
+  font-size: var(--fs-h2);
 }
-.brands-title{ font-size:1.75rem; }
-.testimonials-heading-alt{ color:var(--gray-900); margin:.5rem 0 2rem; }
-.form-intro{ color:var(--gray-500); margin-top:.5rem; }
+
+.brands-title {
+  font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+}
+
+.testimonials-heading-alt {
+  color: var(--gray-900);
+  margin: 0.5rem 0 2rem;
+}
+
+.form-intro {
+  color: var(--gray-500);
+  margin-top: 0.5rem;
+}
 
 
 /* ========== 05. LAYOUT GLOBAL ========== */
-@media (min-width:768px) {
-  .section { padding: 6rem 0; }
-}
+
+/* Los ajustes responsive se agrupan en la sección 09 */
 
 
 /* ========== 06. COMPONENTES ========== */
 
-/* 6.1 Header */
+/** 6.1. Header **/
 header {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-header a { display:inline-block; color:inherit; text-decoration:none; }
-header a:visited,header a:hover,header a:active{ color:inherit; }
-.header-inner{ display:flex; justify-content:center; align-items:center; padding:1rem 0; }
 
-header .container{
-  display:flex;
-  justify-content:center;
-  padding:1rem 0;
+header .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
 }
-.header-logo-stack{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.header-logo-stack img{ height:1.75rem; }
 
-/* 6.2 Hero */
+header a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.header-logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-logo-stack img {
+  height: 1.75rem;
+}
+
+/** 6.2. Hero y Botones **/
 .hero h2 {
-  font-size: 2.25rem;
+  font-size: var(--fs-h2);
   font-weight: 400;
   color: var(--gray-800);
-  line-height: 1;
   margin: 0 auto;
   max-width: 48rem;
 }
+
 .hero p {
-  margin: 1.5rem auto 0;
-  font-size: 1.125rem;
+  font-size: var(--fs-body);
   color: var(--gray-500);
+  margin: 1.5rem auto 0;
   max-width: 38rem;
 }
-/* ===========================
-   Botones – versión responsive
-   =========================== */
 
-:root{
-  /* Tokens fluidos para botones */
-  --btn-fs: clamp(1rem, 2.6vw, 1.125rem);
-  --btn-py: clamp(.85rem, 2.8vw, 1rem);
-  --btn-px: clamp(1.5rem, 6vw, 2.5rem);
-  --btn-radius: .5rem;
-  --btn-shadow: 0 6px 12px rgba(0,0,0,.15);
-  --btn-shadow-hover: 0 12px 20px rgba(0,0,0,.2);
-  --btn-ring: 0 0 0 3px rgba(255,0,61,.25);
-}
-
-.btn-primary{
-  display:inline-block;
-  margin-top:2.5rem;
-  background:var(--primary);
-  color:#fff;
-  font-weight:700;
-  font-size:var(--btn-fs);
-  line-height:1;
-  padding:var(--btn-py) var(--btn-px);
-  border-radius:var(--btn-radius);
-  box-shadow:var(--btn-shadow);
-  transition:transform .25s, box-shadow .25s, background .25s;
-  cursor:pointer;
-  text-decoration:none;
-  border:none;
-}
-.btn-primary:hover{
-  transform:scale(1.05);
-  box-shadow:var(--btn-shadow-hover);
-  background:#e60037;
-}
-.btn-primary:active{
-  transform:scale(.98) translateY(1px);
-  box-shadow:0 4px 8px rgba(0,0,0,.15);
-}
-.btn-primary:focus-visible{
-  outline:none;
-  box-shadow:var(--btn-shadow), var(--btn-ring);
-}
-.btn-primary:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-  transform:none;
-  box-shadow:var(--btn-shadow);
+.btn-primary,
+.submit-btn {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--btn-fs);
+  line-height: 1;
+  padding: var(--btn-py) var(--btn-px);
+  border-radius: var(--btn-radius);
+  box-shadow: var(--btn-shadow);
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
 }
 
-/* Variante full width en móviles chicos (si la necesitas) */
-@media(max-width:480px){
-  .btn-primary{
-    width:100%;
-    margin-top:2rem;
-    text-align:center;
-  }
+.btn-primary {
+  margin-top: 2.5rem;
 }
 
-/* Reduce motion */
-@media(prefers-reduced-motion:reduce){
-  .btn-primary{
-    transition:none;
-    transform:none !important;
-  }
+.btn-primary:hover,
+.submit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--btn-shadow-hover);
+  background: #e60037;
 }
 
-.submit-btn{
-  @apply btn-primary; /* si usas Tailwind */
+.btn-primary:active,
+.submit-btn:active {
+  transform: scale(0.98) translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
-/* O sin Tailwind: */
-.submit-btn{
-  background:var(--primary);
-  color:#fff;
-  font-weight:700;
-  font-size:var(--btn-fs);
-  line-height:1;
-  padding:var(--btn-py) var(--btn-px);
-  border-radius:var(--btn-radius);
-  box-shadow:var(--btn-shadow);
-  transition:transform .25s, box-shadow .25s, background .25s;
-  border:none;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  cursor:pointer;
-}
-.submit-btn:hover{ transform:scale(1.05); box-shadow:var(--btn-shadow-hover); background:#e60037; }
-.submit-btn:active{ transform:scale(.98) translateY(1px); box-shadow:0 4px 8px rgba(0,0,0,.15); }
-.submit-btn:focus-visible{ outline:none; box-shadow:var(--btn-shadow), var(--btn-ring); }
-.submit-btn:disabled{ opacity:.6; cursor:not-allowed; transform:none; box-shadow:var(--btn-shadow); }
 
-
-/* 6.3 Scroller marcas */
-.scroller { overflow:hidden; width:100%; margin-top:2.5rem; }
-.scroller-inner {
-  display:flex; flex-wrap:nowrap;
-  width:max-content;
-  animation: scroll 200s linear infinite;
+.btn-primary:focus-visible,
+.submit-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--btn-shadow), var(--btn-ring);
 }
+
+.btn-primary:disabled,
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--btn-shadow);
+}
+
+/** 6.3. Scroller de Marcas **/
+.scroller {
+  position: relative;
+  overflow: hidden;
+  margin-top: 2.5rem;
+}
+
+.scroller:hover .scroller-track {
+  animation-play-state: paused;
+}
+
+.scroller-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  align-items: center;
+  gap: 3.5rem;
+  padding-inline: 1rem;
+  margin: 0;
+  list-style-type: none;
+  animation: scroll 60s linear infinite;
+}
+
 .scroller-item {
-  display:flex; align-items:center; justify-content:center;
-  padding:0 2rem; font-size:1.25rem; font-weight:500; white-space:nowrap;
+  display: flex;
+}
+
+.scroller-item img {
+  max-height: 55px; /* Límite superior para logos altos */
+  filter: grayscale(100%) opacity(0.8);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.scroller-item:hover img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.1);
+}
+
+.scroller--fade {
+  --fade-color: #FFFFFF;
+}
+
+.section--gray50 .scroller--fade {
+  --fade-color: var(--gray-50);
+}
+
+.scroller--fade::before,
+.scroller--fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scroller--fade::before {
+  left: 0;
+  background: linear-gradient(to right, var(--fade-color) 20%, transparent);
+}
+
+.scroller--fade::after {
+  right: 0;
+  background: linear-gradient(to left, var(--fade-color) 20%, transparent);
+}
+
+/** 6.4. Efecto Fade-in **/
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/** 6.5. Beneficios **/
+.benefits {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  margin-top: 3rem;
+}
+
+.benefit {
+  display: flex;
+  align-items: flex-start;
+}
+
+.benefit-text {
+  margin-left: 1rem;
+}
+
+.benefit svg {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary);
+}
+
+.benefit h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.benefit p {
+  margin: 0;
   color: var(--gray-500);
 }
-.scroller-item::before { content:"•"; margin-right:2rem; color:var(--primary); }
 
-/* 6.4 Fade-in */
-.fade-in-section {
-  opacity:0; transform:translateY(20px);
-  transition:opacity .6s ease-out, transform .6s ease-out;
-}
-.fade-in-section.is-visible { opacity:1; transform:translateY(0); }
-
-/* 6.5 Beneficios */
-.benefits {
-  display:grid; gap:2rem; grid-template-columns:1fr; margin-top:3rem;
-}
-.benefit { display:flex; align-items:flex-start; }
-.benefit svg { flex-shrink:0; width:2rem; height:2rem; color:var(--primary); }
-.benefit h4 { margin:0 0 .25rem; font-size:1.125rem; font-weight:700; color:var(--gray-800); }
-.benefit p  { margin:0; color:var(--gray-500); }
-
-/* 6.6 Formulario */
+/** 6.6. Formulario **/
 .form-wrapper {
-  max-width:36rem; margin:0 auto; background:#fff;
-  padding:2rem 1.5rem; border:1px solid var(--gray-50); border-radius:1rem;
-  box-shadow:0 20px 40px rgba(0,0,0,.1);
+  max-width: 36rem;
+  margin: 0 auto;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border: 1px solid var(--gray-50);
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
+
+form#lead-form {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group-last {
+  margin-bottom: 2rem;
+}
+
 label {
-  display:block; font-size:.875rem; font-weight:600; color:var(--gray-800);
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-800);
 }
+
 input {
-  width:100%; margin-top:.25rem; padding:1rem; background:var(--gray-50);
-  border:1px solid var(--gray-50); border-radius:.5rem; font-size:.9375rem;
-  transition:border .2s, box-shadow .2s;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 1rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-50);
+  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  transition: border 0.2s, box-shadow 0.2s;
 }
+
 input:focus {
-  outline:none; border-color:var(--primary); box-shadow:0 0 0 2px rgba(255,0,61,.2);
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(255, 0, 61, 0.2);
 }
+
 .submit-btn {
-  width:100%; margin-top:.5rem; padding:1rem; display:flex; justify-content:center;
-  background:var(--primary); border:none; border-radius:.5rem;
-  color:#fff; font-weight:700; font-size:1.125rem; cursor:pointer;
-  box-shadow:0 6px 12px rgba(0,0,0,.15);
-  transition:transform .3s, box-shadow .3s, background .3s;
-}
-.submit-btn:hover {
-  transform:scale(1.05); box-shadow:0 12px 20px rgba(0,0,0,.2);
-}
-.submit-btn:disabled { opacity:.6; cursor:not-allowed; }
-
-/* 6.7 Footer */
-footer {
-  background:var(--gray-900); color:#fff; padding:2rem 0;
-}
-footer .links {
-  display:flex; justify-content:center; gap:1.5rem; margin-bottom:1rem;
-}
-footer a { color:var(--gray-300); text-decoration:none; font-size:.875rem; }
-footer a:hover { color:#fff; }
-footer p { margin:0; text-align:center; color:var(--gray-300); }
-
-/* 6.8 Testimonios V2 (cards centradas) */
-.testimonials-section .section-tagline{
-  display:inline-block;font-size:.875rem;font-weight:700;
-  color:var(--primary);margin-bottom:.5rem;
-}
-.testimonials-heading{
-  font-size:2rem;font-weight:700;color:var(--gray-900);
-  margin:0 auto 2.5rem;max-width:38rem;
-}
-.testimonials-v2{
-  display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;
-}
-.testimonial-card{
-  position:relative;background:#fff;border:1px solid var(--gray-50);
-  border-radius:1rem;box-shadow:0 4px 16px rgba(0,0,0,.05);
-  max-width:320px;padding:2.5rem 1.75rem 3.5rem;
-}
-.testimonial-card p{margin-top:2rem;font-size:.9375rem;line-height:1.6;color:var(--gray-600);}
-.testimonial-meta{margin-top:1.5rem;}
-.testimonial-meta .name{font-weight:600;color:var(--gray-800);} 
-.testimonial-meta .role{font-size:.8125rem;color:var(--gray-500);} 
-
-/* 6.9 Testimonios V3 (mock‑up) */
-.testimonials-v3-wrapper{
-  max-width:1000px;margin:3rem auto 0;display:flex;flex-wrap:wrap;
-  gap:clamp(1rem,3vw,2rem);justify-content:center;
-}
-.testimonials-v3-card{
-  position:relative;background:#fff;border-radius:1rem;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);
-  padding:3.5rem 2rem 2.5rem;flex:0 0 300px;
-}
-.testimonials-v3-card p{
-  font-size:.9375rem;line-height:1.6;color:var(--gray-600);margin:0 0 1.5rem;
-}
-.testimonial-author{font-weight:600;color:var(--gray-800);} 
-.testimonial-role{font-size:.8125rem;color:var(--gray-500);} 
-
-/* Compartidos entre V2 y V3 */
-.testimonial-card .avatar,
-.testimonials-v3-card .avatar{
-  width:72px;height:72px;border-radius:50%;object-fit:cover;
-  border:4px solid #fff;position:absolute;top:-36px;left:50%;transform:translateX(-50%);
-}
-.rating-stars{
-  font-size:.875rem;color:var(--primary);letter-spacing:1px;
-  position:absolute;bottom:1rem;right:1.25rem; /* para V2 */
-}
-.testimonials-v3-card .rating-stars{
-  position:static;margin-top:1rem;text-align:right; /* override para V3 */
+  width: 100%;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 
-/* 6.10 Resumen de reseñas */
-.reviews-summary{
-  margin-top:.75rem;display:flex;justify-content:center;align-items:center;gap:.5rem;
-  font-size:.875rem;color:var(--gray-500);
-}
-.reviews-summary .rating{font-weight:600;color:var(--gray-800);}
-
-
-/* ========== 07. MISC ========== */
-#diagnostico {
-  scroll-margin-top: 6rem;
-  background-image: url('/assets/images/background-form.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.form-status {
+  /* Estilos base para mensajes de estado del formulario */
+  margin-top: 1rem;
+  text-align: center;
 }
 
-
-/* ========== 08. ANIMACIONES / KEYFRAMES ========== */
-@keyframes scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Bucle infinito */
+.form-note {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--gray-500);
 }
 
-
-/* ========== 09. MEDIA QUERIES ========== */
-
-/* ≥768px */
-@media(min-width:768px){
-  .hero h2{ font-size:3rem; }
-  .hero p { font-size:1.25rem; }
-
-  .benefits{ grid-template-columns:1fr 1fr; gap:3rem; }
-
-  .form-wrapper{ padding:3rem; }
-
-  .testimonials-heading{ font-size:2.5rem; }
+/** 6.7. Testimonios **/
+.testimonials-section .section-tagline {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
 }
 
-/* Dark scheme overrides */
-@media(prefers-color-scheme:dark){
-  .testimonial-card{background:var(--gray-900);border-color:var(--gray-800);}
-  .testimonial-card p{color:var(--gray-50);}
-  .testimonial-meta .name{color:#fff;}
+.testimonials-v3-wrapper {
+  max-width: 1000px;
+  margin: 3rem auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 3vw, 2rem);
+  justify-content: center;
 }
 
-/* ≤768px optimizaciones testimonios V3 */
-@media(max-width:768px){
-  /* Marco con degradado (no se desplaza) */
-  .testimonials-fader-frame {
-    position: relative;
-  }
-  .testimonials-fader-frame::before,
-  .testimonials-fader-frame::after {
-    content:"";
-    position:absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    width: 2rem;
-    pointer-events:none;
-    background: linear-gradient(to right, var(--gray-50) 0%, rgba(247, 247, 247, 0) 100%);
-  }
-  .testimonials-fader-frame::before { left: 0; }
-  .testimonials-fader-frame::after  { right: 0; transform: scaleX(-1); }
-
-  /* Carrusel desplazable */
-  .testimonials-v3-wrapper{
-    display:flex;
-    justify-content:flex-start;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    gap:1.25rem;
-    padding: 3rem 1.25rem 1.5rem; /* espacio para avatares */
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width:none;
-  }
-  .testimonials-v3-wrapper::-webkit-scrollbar{display:none;}
-
-  .testimonials-v3-card{
-    flex:0 0 90%;
-    max-width:360px;
-    scroll-snap-align:center;
-  }
+.testimonials-v3-card {
+  position: relative;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  padding: 3.5rem 2rem 2.5rem;
+  flex: 0 0 300px;
 }
 
-/* Reduce motion */
-@media(prefers-reduced-motion:reduce){
-  .scroller-inner{ animation:none; }
+.testimonials-v3-card p {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--gray-600);
+  margin: 0 0 1.5rem;
 }
 
-/* ============================
-   Responsive Fixes – 24 Jul 2025
-   ============================ */
-
-/* Tipografías fluidas básicas */
-:root{
-  --fs-h2: clamp(2rem, 6vw, 3rem);
-  --fs-h3: clamp(1.5rem, 4.5vw, 2.5rem);
-  --fs-body: clamp(.95rem, 2.8vw, 1.125rem);
+.testimonials-v3-card .avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.hero h2,
-.benefits-title,
-.testimonials-heading,
-.testimonials-heading-alt,
-.form-title{ font-size: var(--fs-h2); }
-
-.hero p,
-.testimonials-v3-card p,
-.testimonial-card p{ font-size: var(--fs-body); }
-
-.brands-title{ font-size: clamp(1.35rem, 4.5vw, 1.75rem); }
-
-/* ---------- Mobile ≤ 480px ---------- */
-@media(max-width:480px){
-  .section{ padding: 3rem 0; }
-
-  .scroller-item{
-    padding: 0 1.25rem;
-    font-size: 1rem;
-  }
-  .scroller-item::before{ margin-right:1.25rem; }
-
-  .benefit svg{ width:1.5rem; height:1.5rem; }
-  .benefit-text{ margin-left:.75rem; }
-
-  .form-wrapper{ padding:1.75rem 1.25rem; }
-  input{ padding:.875rem; font-size:.9rem; }
-
-  .submit-btn{
-    padding:.875rem 1rem;
-    font-size:1rem;
-  }
-
-  footer .links{ gap:1rem; flex-wrap:wrap; }
+.testimonial-author {
+  font-weight: 600;
+  color: var(--gray-800);
 }
 
-/* ---------- Small tablets 481–767px ---------- */
-@media(min-width:481px) and (max-width:767px){
-  .section{ padding: 3.5rem 0; }
-
-  .testimonials-v3-card{
-    flex:0 0 80%;
-    max-width:400px;
-  }
+.testimonial-role {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
 }
 
-/* ---------- Tablets 768–1023px ---------- */
-@media(min-width:768px) and (max-width:1023px){
-  .container{ padding: 0 2rem; }
-
-  .testimonials-v3-wrapper{
-    gap:1.5rem;
-  }
+.rating-stars {
+  font-size: 0.875rem;
+  color: var(--primary);
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  text-align: right;
 }
 
-/* Ajustes específicos Testimonios V3 en mobile para evitar saltos */
-@media(max-width:768px){
-  .testimonials-v3-card{
-    min-height: 350px; /* evita “dance” al arrastrar */
-  }
-  .testimonials-fader-frame::before,
-  .testimonials-fader-frame::after{
-    background: linear-gradient(to right, inherit 0%, rgba(247,247,247,0) 100%);
-  }
-}
-
-/* Preferencia de movimiento reducido ya estaba para scroller; sumamos para fade-in */
-@media(prefers-reduced-motion:reduce){
-  .fade-in-section{ transition:none; transform:none; opacity:1; }
-}
-
+/** 6.8. Disclaimer reCAPTCHA **/
 .recaptcha-disclaimer {
-  margin-top: .5rem;
-  font-size: .8125rem; /* 13px aprox */
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
   line-height: 1.4;
-  color: var(--gray-600, #6b7280);
+  color: var(--gray-600);
 }
 
 .recaptcha-disclaimer a {
+  color: inherit;
   text-decoration: underline;
 }
 
 footer .recaptcha-disclaimer--footer {
-  margin-top: .75rem;
+  margin-top: 0.75rem;
   text-align: center;
-  color: var(--gray-500, #737373);
+  color: var(--gray-500);
 }
 
-/* ——— Cookie Banner (Artífices) ——— */
-:root {
-  /* Variables para el tema oscuro (por defecto) */
-  --cb-bg: #0b0b0bcc;
-  --cb-border: #ffffff1f;
-  --cb-text: #ededed;
-  --cb-link: #ffffff;
-  --cb-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-  --cb-radius: 20px;
-  --cb-primary: #ff003d;
-  --cb-primary-text: #fff;
-  --cb-secondary-bg: #ffffff;
-  --cb-secondary-text: #000;
-}
-
-@media (prefers-color-scheme: light) {
-  /* Variables para el tema claro */
-  :root {
-    --cb-bg: #ffffffcc;
-    --cb-border: #00000012;
-    --cb-text: #111;
-    --cb-link: #000;
-    --cb-shadow: 0 16px 50px rgba(0, 0, 0, .12);
-    --cb-secondary-bg: #f5f5f5;
-    --cb-secondary-text: #111;
-  }
-}
-
+/** 6.9. Cookie Banner **/
 .cookie-banner {
   position: fixed;
   inset: auto 0 24px 0;
@@ -592,7 +546,7 @@ footer .recaptcha-disclaimer--footer {
   display: grid;
   place-items: center;
   padding-inline: 16px;
-  pointer-events: none; /* Evita robar clics cuando está oculto */
+  pointer-events: none;
 }
 
 .cookie-banner__inner {
@@ -602,17 +556,12 @@ footer .recaptcha-disclaimer--footer {
   border: 1px solid var(--cb-border);
   box-shadow: var(--cb-shadow);
   border-radius: var(--cb-radius);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   padding: clamp(16px, 3vw, 28px);
-  pointer-events: auto; /* Vuelve clicable el contenido */
-  
-  /* --- Animación de entrada --- */
+  pointer-events: auto;
   transform: translateY(16px);
   opacity: 0;
-  transition: transform .35s ease, opacity .35s ease;
-
-  /* --- Layout (Mobile-First: apilado por defecto) --- */
+  transition: transform 0.35s ease, opacity 0.35s ease;
   display: grid;
   gap: 16px;
 }
@@ -623,7 +572,7 @@ footer .recaptcha-disclaimer--footer {
 }
 
 .cookie-banner__text {
-  font-size: clamp(.92rem, 1.2vw, 1rem);
+  font-size: clamp(0.92rem, 1.2vw, 1rem);
   line-height: 1.6;
   margin: 0;
 }
@@ -632,172 +581,278 @@ footer .recaptcha-disclaimer--footer {
   color: var(--cb-link);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
 }
 
 .cookie-banner__text a:hover {
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .cookie-banner__actions {
   display: flex;
-  flex-wrap: wrap; /* Seguridad para que no se desborde */
+  flex-wrap: wrap;
   gap: 12px;
-  justify-content: flex-end; /* Alinea botones a la derecha en móvil */
+  justify-content: flex-end;
 }
 
-/* --- Estilos unificados de botones --- */
 .cookie-banner .btn-primary,
 .cookie-banner .btn-secondary {
   appearance: none;
-  border: 1px solid transparent; /* Base para el borde del secundario */
+  border: 1px solid transparent;
   border-radius: 16px;
   padding: 12px 20px;
   font-weight: 700;
-  font-size: .95rem;
+  font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
-  transition: transform .12s ease, box-shadow .2s ease, opacity .2s, border-color .2s;
-  will-change: transform;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s, border-color 0.2s;
 }
 
 .cookie-banner .btn-primary {
   background: var(--cb-primary);
   color: var(--cb-primary-text);
-  box-shadow: 0 8px 18px rgba(255, 0, 61, .22);
+  box-shadow: 0 8px 18px rgba(255, 0, 61, 0.22);
+}
+
+.cookie-banner .btn-primary:hover {
+  transform: translateY(-1px);
 }
 
 .cookie-banner .btn-secondary {
   background: var(--cb-secondary-bg);
   color: var(--cb-secondary-text);
-  border-color: var(--cb-border); /* Borde sutil para separar del fondo */
-  box-shadow: 0 6px 14px rgba(0, 0, 0, .10);
+  border-color: var(--cb-border);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 
-/* Estados de los botones */
-.cookie-banner .btn-primary:hover {
-  transform: translateY(-1px);
-}
-.cookie-banner .btn-primary:active {
-  transform: translateY(0);
-}
 .cookie-banner .btn-secondary:hover {
-  opacity: .92;
+  opacity: 0.92;
 }
 
-/* Foco accesible y con marca */
 .cookie-banner .btn-primary:focus-visible,
 .cookie-banner .btn-secondary:focus-visible {
   outline: 2px solid var(--cb-primary);
   outline-offset: 2px;
 }
 
-/* ——— Responsive ——— */
+/** 6.10. Footer **/
+footer {
+  background: var(--gray-900);
+  color: #fff;
+  padding: 2rem 0;
+}
 
-/* Layout para pantallas medianas y grandes (ej. 900px en adelante) */
-@media (min-width: 900px) {
-  .cookie-banner__inner {
-    grid-template-columns: 1fr auto; /* Texto a la izq, botones a la der */
-    align-items: center;
-    gap: 24px;
+footer .links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+footer a {
+  color: var(--gray-300);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+footer a:hover {
+  color: #fff;
+}
+
+footer p {
+  margin: 0;
+  text-align: center;
+  color: var(--gray-300);
+}
+
+
+/* ========== 07. MISCELÁNEO ========== */
+
+#diagnostico {
+  scroll-margin-top: 6rem; /* Ajuste para el ancla del formulario */
+}
+
+
+/* ========== 08. ANIMACIONES (KEYFRAMES) ========== */
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-/* Ajustes para móviles muy pequeños */
-@media (max-width: 420px) {
+
+/* ========== 09. MEDIA QUERIES (AGRUPADAS) ========== */
+
+/** Tablets y superior (≥ 768px) **/
+@media (min-width: 768px) {
+  .section {
+    padding: 6rem 0;
+  }
+  .benefits {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .form-wrapper {
+    padding: 3rem;
+  }
+}
+
+/** Tablets medianas (768px - 1023px) **/
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding: 0 2rem;
+  }
+  .testimonials-v3-wrapper {
+    gap: 1.5rem;
+  }
+}
+
+/** Móviles y tablets pequeñas (≤ 767px) **/
+@media (max-width: 767px) {
+  /* Scroller */
+  .scroller-track {
+    gap: 2.5rem;
+    animation-duration: 45s;
+  }
+  .scroller-item img {
+    max-height: 40px;
+  }
+  .scroller--fade::before,
+  .scroller--fade::after {
+    width: 50px;
+  }
+
+  /* Testimonios V3 en modo carrusel */
+  .testimonials-fader-frame {
+    position: relative;
+  }
+  .testimonials-fader-frame::before,
+  .testimonials-fader-frame::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 2rem;
+    pointer-events: none;
+    background: linear-gradient(to right, var(--gray-50) 0%, rgba(247, 247, 247, 0) 100%);
+  }
+  .testimonials-fader-frame::before {
+    left: 0;
+  }
+  .testimonials-fader-frame::after {
+    right: 0;
+    transform: scaleX(-1);
+  }
+  .testimonials-v3-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1.25rem;
+    padding: 3rem 1.25rem 1.5rem; /* Espacio para avatares y scroll */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .testimonials-v3-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .testimonials-v3-card {
+    flex: 0 0 90%;
+    max-width: 360px;
+    scroll-snap-align: center;
+    min-height: 350px; /* Evita saltos de layout al deslizar */
+  }
+}
+
+/** Móviles pequeños (≤ 480px) **/
+@media (max-width: 480px) {
+  .section {
+    padding: 3rem 0;
+  }
+  .btn-primary {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .benefit svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .benefit-text {
+    margin-left: 0.75rem;
+  }
+  .form-wrapper {
+    padding: 1.75rem 1.25rem;
+  }
+  input {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+  .submit-btn {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+  footer .links {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  /* Cookie Banner */
   .cookie-banner .btn-primary,
   .cookie-banner .btn-secondary {
     padding: 10px 16px;
     border-radius: 14px;
     font-size: 0.9rem;
-    width: 100%; /* Ocupan todo el ancho para fácil pulsación */
+    width: 100%;
   }
   .cookie-banner__actions {
-    flex-direction: column-reverse; /* El botón primario queda abajo */
+    flex-direction: column-reverse;
     gap: 10px;
   }
 }
 
-/* 6.3 Scroller marcas (logos) */
-.scroller { overflow:hidden; width:100%; margin-top:2.5rem; }
-.scroller-track {
-  display:flex;
-  flex-wrap:nowrap;
-  width:max-content;
-  align-items:center;
-  gap:2.5rem;
-  padding-inline:.5rem;
-  animation: scroll 200s linear infinite;
+/** Cookie Banner en Desktop (≥ 900px) **/
+@media (min-width: 900px) {
+  .cookie-banner__inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
 }
 
-.scroller-item { display:flex; align-items:center; justify-content:center; }
-.scroller-item::before { content:none; }
-
-.scroller-item picture img {
-  height:50px;         /* controla el alto visual */
-  width:auto;
-  max-width:220px;
-  object-fit:contain;
-  filter:grayscale(100%) opacity(.9);
-  transition:filter .25s, transform .25s;
-}
-.scroller-item picture img:hover { filter:none; transform:translateY(-2px); }
-
-@media (max-width:640px){
-  .scroller-track { gap:1.5rem; }
-  .scroller-item picture img { height:40px; max-width:180px; }
-}
-
-@keyframes scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* ——— Scroller con degradado en los bordes ——— */
-.scroller {
-  position: relative;
-  overflow: hidden;
+/** Preferencias de Usuario **/
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .submit-btn,
+  .cookie-banner .btn-primary,
+  .cookie-banner .btn-secondary {
+    transition: none;
+    transform: none !important;
+  }
+  .scroller-track {
+    animation: none;
+  }
+  .scroller-item img {
+    transition: none;
+  }
+  .fade-in-section {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
 }
 
-/* Color base del fade: por defecto blanco */
-.scroller--fade { --fade: #ffffff; }
+/* ========== 07. MISCELÁNEO ========== */
 
-/* Si el scroller vive sobre la sección gris, usa ese mismo color */
-.section--gray50 .scroller--fade { --fade: var(--gray-50); }
-
-/* Capas de degradado (superpuestas, no capturan clics) */
-.scroller--fade::before,
-.scroller--fade::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 64px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.scroller--fade::before {
-  left: 0;
-  background: linear-gradient(to right, var(--fade) 0%, rgba(255,255,255,0) 100%);
-}
-
-.scroller--fade::after {
-  right: 0;
-  background: linear-gradient(to left, var(--fade) 0%, rgba(255,255,255,0) 100%);
-}
-
-/* Asegura que el contenido quede bajo los overlays */
-.scroller-track { position: relative; z-index: 1; }
-
-/* Ajuste responsive: bordes más estrechos en móviles */
-@media (max-width: 640px) {
-  .scroller--fade::before,
-  .scroller--fade::after { width: 40px; }
-}
-
-/* Modo oscuro (opcional): si tu fondo en dark es casi negro */
-@media (prefers-color-scheme: dark) {
-  .scroller--fade { --fade: #0e0e0e; }
-  .section--gray50 .scroller--fade { --fade: var(--gray-50); } /* mantiene gris si corresponde */
+#diagnostico {
+  scroll-margin-top: 6rem;
+  background-image: url('/assets/images/background-form.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
