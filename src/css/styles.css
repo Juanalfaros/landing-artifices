@@ -856,3 +856,5 @@ footer p {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+#phone::placeholder { color: var(--gray-600); }

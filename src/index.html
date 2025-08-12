@@ -479,56 +479,97 @@
       </section>
 
       <!-- FORMULARIO -->
-      <section id="diagnostico" class="section fade-in-section">
-        <div class="container">
-          <div class="form-wrapper">
-            <div class="text-center">
-              <h2 class="font-primary form-title">
-                Reserva tu Diagnóstico Gratuito Ahora
-              </h2>
-              <p class="form-intro">
-                Completa el formulario y un estratega se pondrá en contacto para agendar tu sesión.
-              </p>
-            </div>
+<section id="diagnostico" class="section fade-in-section">
+  <div class="container">
+    <div class="form-wrapper">
+      <div class="text-center">
+        <h2 class="font-primary form-title">
+          Reserva tu Diagnóstico Gratuito Ahora
+        </h2>
+        <p class="form-intro">
+          Completa el formulario y un estratega se pondrá en contacto para agendar tu sesión.
+        </p>
+      </div>
 
-            <form id="lead-form">
-              <div class="form-group">
-                <label for="name">Nombre</label>
-                <input id="name" name="name" type="text" required />
-              </div>
-              <div class="form-group">
-                <label for="email">Email de trabajo</label>
-                <input id="email" name="email" type="email" required />
-              </div>
-              <div class="form-group">
-                <label for="company">Empresa</label>
-                <input id="company" name="company" type="text" required />
-              </div>
-              <div class="form-group-last">
-                <label for="website">Página web actual</label>
-                <input id="website" name="website" type="text" placeholder="https://..." required />
-              </div>
-              <button id="submit-button" class="submit-btn" type="submit">
-                Solicitar mi Diagnóstico Gratuito
-              </button>
-
-              <p id="form-status" class="form-status" aria-live="polite"></p>
-            </form>
-
-            <p class="form-note">
-              ✓ Totalmente confidencial &nbsp;✓ Sesión sin costo ni compromiso.
-            </p>
-            <p class="recaptcha-disclaimer">
-              Este sitio está protegido por reCAPTCHA y se aplican la
-              <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">Política de
-                Privacidad</a>
-              y los
-              <a href="https://policies.google.com/terms?hl=es" target="_blank" rel="noopener">Términos de Servicio</a>
-              de Google.
-            </p>
-          </div>
+      <form id="lead-form">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Ej: Juan Perez"
+            required
+          />
         </div>
-      </section>
+
+        <div class="form-group">
+          <label for="phone">Teléfono (con código de país)</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="+569"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email de trabajo</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Ej: juan@miempresa.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="company">Empresa</label>
+          <input
+            id="company"
+            name="company"
+            type="text"
+            placeholder="Ej: Artífices – Creative Studio"
+            required
+          />
+        </div>
+
+        <div class="form-group-last">
+          <label for="website">Página web actual</label>
+          <input
+            id="website"
+            name="website"
+            type="text"
+            placeholder="https://www.miempresa.com"
+            required
+          />
+        </div>
+
+        <button id="submit-button" class="submit-btn" type="submit">
+          Solicitar mi Diagnóstico Gratuito
+        </button>
+
+        <p id="form-status" class="form-status" aria-live="polite"></p>
+      </form>
+
+      <p class="form-note">
+        ✓ Totalmente confidencial &nbsp;✓ Sesión sin costo ni compromiso.
+      </p>
+      <p class="recaptcha-disclaimer">
+        Este sitio está protegido por reCAPTCHA y se aplican la
+        <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">Política de
+          Privacidad</a>
+        y los
+        <a href="https://policies.google.com/terms?hl=es" target="_blank" rel="noopener">Términos de Servicio</a>
+        de Google.
+      </p>
+    </div>
+  </div>
+</section>
     </main>
 
     <!-- …antes del </main> o justo antes del <footer> -->
