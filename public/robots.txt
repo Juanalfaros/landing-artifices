@@ -1,0 +1,22 @@
+# Permitir que todos los motores y LLM indexen el sitio
+User-agent: *
+Allow: /
+
+# Rastreadores de IA específicos
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Ubicación del sitemap
+Sitemap: https://landing.artifices.studio/sitemap.xml
