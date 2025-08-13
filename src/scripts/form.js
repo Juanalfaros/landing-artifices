@@ -3,54 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const form   = document.querySelector('#lead-form');
   const status = document.querySelector('#form-status');
 
+  // ya viene del snippet que pusimos en index.html
   const siteKey = window.RECAPTCHA_SITE_KEY;
-
-  function normalizePhone(raw) {
-    if (!raw) return '';
-    let v = String(raw).trim();
-    // permitir solo dígitos y un + inicial
-    v = v.replace(/[^\d+]/g, '');
-    // si tiene múltiples +, quédate con el primero
-    if (v.indexOf('+') > 0) v = '+' + v.replace(/\+/g, '');
-    return v;
-  }
-
-  function isValidPhone(p) {
-    // E.164 simplificado: + y 8–15 dígitos
-    return /^\+?\d{8,15}$/.test(p);
-  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     status.textContent = 'Enviando…';
 
-    // Validación suave del website (tu lógica actual)
-    const webInput = form.website;
-    if (!webInput.checkValidity()) {
-      if (!/^https?:\/\//i.test(webInput.value)) {
-        webInput.value = `https://${webInput.value}`;
-      }
+    // si el campo es inválido, tratamos de arreglarlo
+  const webInput = form.website;
+  if (!webInput.checkValidity()) {
+    if (!/^https?:\/\//i.test(webInput.value)) {
+      webInput.value = `https://${webInput.value}`;
     }
-    if (!webInput.checkValidity()) {
-      webInput.reportValidity();
-      return;
-    }
+  }
 
-    // Normaliza y valida teléfono si viene
-    const phoneRaw = form.phone?.value || '';
-    const phone    = normalizePhone(phoneRaw);
-    if (phoneRaw && !isValidPhone(phone)) {
-      status.textContent = 'Ingresa un teléfono válido (ej: +56912345678).';
-      form.phone.focus();
-      return;
-    }
+  // si sigue siendo inválido -> mensaje del navegador
+  if (!webInput.checkValidity()) {
+    webInput.reportValidity();
+    return;
+  }
 
     try {
       await grecaptcha.ready(async () => {
         const token = await grecaptcha.execute(siteKey, { action: 'submit' });
 
         const payload = Object.fromEntries(new FormData(form));
-        payload.phone = phone; // normalizado
         payload.token = token;
 
         const res = await fetch('/api/submit-lead', {
@@ -74,3 +52,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+

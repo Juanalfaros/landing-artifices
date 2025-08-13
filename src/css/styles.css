@@ -216,6 +216,7 @@ header a {
   color: var(--gray-800);
   margin: 0 auto;
   max-width: 48rem;
+  line-height: 1;
 }
 
 .hero p {
@@ -453,6 +454,10 @@ input:focus {
   text-align: center;
   font-size: 0.75rem;
   color: var(--gray-500);
+}
+
+.form-intro {
+  text-wrap: balance;
 }
 
 /** 6.7. Testimonios **/
@@ -858,3 +863,4 @@ footer p {
 }
 
 #phone::placeholder { color: var(--gray-600); }
+
