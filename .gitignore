@@ -25,6 +25,7 @@ npm-debug.log*
 !/public/favicon.ico
 !/public/site.webmanifest
 !/public/robots.txt
+!/public/sitemap.xml
 !/public/pages/
 !/public/pages/**      # mantén las páginas estáticas
 /public/*.html         # ← bloquea index.html y similares

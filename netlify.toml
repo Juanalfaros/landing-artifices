@@ -1,14 +1,76 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  
-# ➌ Dirige cualquier llamada a /api/submit-lead a la función serverless
+
+UPSTASH_REDIS_REST_URL="https://skilled-moccasin-38201.upstash.io"
+UPSTASH_REDIS_REST_TOKEN="AZU5AAIncDFhOTM3N2NiYmJiNTM0N2NjODg4NjlkMDNhNDI2NWU1Y3AxMzgyMDE"
+AGENT_LIST               = "juan,cristian"
+
+# API -> Netlify Function
 [[redirects]]
   from = "/api/submit-lead"
   to   = "/.netlify/functions/submit-lead"
   status = 200
   force = true
 
-UPSTASH_REDIS_REST_URL="https://intense-elf-10586.upstash.io"
-UPSTASH_REDIS_REST_TOKEN="ASlaAAIjcDFmOGY0N2VjNmUzNTE0ZmQ2ODU5YTU5ZGE1MDVhZGViMXAxMA"
-AGENT_LIST               = "juan,cristian"
+# Canónicas sin .html (por SEO)
+[[redirects]]
+  from = "/pages/politica-privacidad.html"
+  to   = "/pages/politica-privacidad"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/terminos-condiciones.html"
+  to   = "/pages/terminos-condiciones"
+  status = 301
+  force = true
+
+# Cache de assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/scripts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Seguridad + CSP (incluye GTM, reCAPTCHA, Typekit y Meta/Facebook)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Content-Security-Policy = """
+      default-src 'self';
+      base-uri 'self';
+      frame-ancestors 'self';
+      script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com https://connect.facebook.net;
+      connect-src 'self' https://ipapi.co https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com https://graph.facebook.com https://connect.facebook.net https://www.facebook.com;
+      img-src 'self' data: https:;
+      style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net;
+      font-src 'self' data: https://use.typekit.net https://p.typekit.net;
+      frame-src https://www.googletagmanager.com https://www.google.com https://www.facebook.com;
+      object-src 'none';
+      upgrade-insecure-requests;
+    """
